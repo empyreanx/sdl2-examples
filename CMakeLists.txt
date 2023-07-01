@@ -12,6 +12,9 @@ find_package(SDL2_image REQUIRED)
 
 set(CMAKE_BUILD_TYPE Debug)
 
-add_executable(sdl2-demo main.c)
-target_include_directories(sdl2-demo PRIVATE ${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
-target_link_libraries(sdl2-demo ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})
+add_executable(demo main.c)
+target_include_directories(demo PRIVATE ${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
+target_link_libraries(demo ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})
+
+file(COPY ${PROJECT_SOURCE_DIR}/tex.png DESTINATION ${PROJECT_BINARY_DIR})
+

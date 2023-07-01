@@ -48,6 +48,9 @@ static bool startup()
 
 static void shutdown()
 {
+    if (state.renderer)
+        SDL_DestroyRenderer(state.renderer);
+
     if (state.win)
         SDL_DestroyWindow(state.win);
 
@@ -75,6 +78,26 @@ int main(int argc, char *argv[])
         return -1;
     }
 
+
+    state.renderer = SDL_CreateRenderer(state.win, -1, SDL_RENDERER_ACCELERATED |
+                                                       SDL_RENDERER_PRESENTVSYNC);
+
+    if (state.renderer == NULL)
+    {
+        print_sdl_error();
+        shutdown();
+        return -1;
+    }
+
+    state.tex = IMG_LoadTexture(state.renderer, "tex.png");
+
+    if (state.tex == NULL)
+    {
+        print_img_error();
+        shutdown();
+        return -1;
+    }
+
     bool done = false;
 
     while (!done)
@@ -98,6 +121,10 @@ int main(int argc, char *argv[])
                     break;
             }
         }
+
+        SDL_RenderClear(state.renderer);
+        SDL_RenderCopy(state.renderer, state.tex, NULL, NULL);
+        SDL_RenderPresent(state.renderer);
     }
 
     shutdown();
